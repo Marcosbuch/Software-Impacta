@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Receita</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px); /* Ajuste para incluir padding e borda */
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .descricao {
+            max-width: 100%; /* Ajustar largura máxima para descrição */
+        }
+        .tipo, .indicador1, .indicador2 {
+            max-width: 50%; /* Ajustar largura máxima para campos menores */
+        }
+        .compoe_dre, .compoe_dfc {
+            max-width: 20%; /* Ajustar largura máxima para seleções curtas */
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1><i class="fas fa-plus-circle icon"></i>Cadastrar Receita</h1>
+        <form id="form-receita">
+            <label for="descricao">Descrição da Receita:</label>
+            <input type="text" id="descricao" name="descricao" class="descricao" maxlength="255" required>
+
+            <label for="tipo">Tipo:</label>
+            <input type="text" id="tipo" name="tipo" class="tipo" maxlength="50" required>
+
+            <label for="indicador1">Indicador 1:</label>
+            <input type="text" id="indicador1" name="indicador1" class="indicador1" maxlength="50" required>
+
+            <label for="indicador2">Indicador 2:</label>
+            <input type="text" id="indicador2" name="indicador2" class="indicador2" maxlength="50" required>
+
+            <label for="compoe_dre">Compõe a DRE:</label>
+            <select id="compoe_dre" name="compoe_dre" class="compoe_dre" required>
+                <option value="" disabled selected>Selecione</option>
+                <option value="Sim">Sim</option>
+                <option value="Não">Não</option>
+            </select>
+
+            <label for="compoe_dfc">Compõe a DFC:</label>
+            <select id="compoe_dfc" name="compoe_dfc" class="compoe_dfc" required>
+                <option value="" disabled selected>Selecione</option>
+                <option value="Sim">Sim</option>
+                <option value="Não">Não</option>
+            </select>
+
+            <button type="submit"><i class="fas fa-save icon"></i>Cadastrar</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('form-receita').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const data = {
+                descricao: document.getElementById('descricao').value,
+                tipo: document.getElementById('tipo').value,
+                indicador1: document.getElementById('indicador1').value,
+                indicador2: document.getElementById('indicador2').value,
+                compoe_dre: document.getElementById('compoe_dre').value,
+                compoe_dfc: document.getElementById('compoe_dfc').value
+            };
+
+            fetch('/cadastrar-receita', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.text())
+            .then(message => {
+                alert(message);
+                // Limpar os campos do formulário após o envio
+                document.getElementById('form-receita').reset();
+            })
+            .catch(error => console.error('Erro:', error));
+        });
+    </script>
+</body>
+</html>
