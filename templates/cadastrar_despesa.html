@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Receita</title>
+    <title>Cadastrar Despesa</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -54,13 +54,13 @@
         button:hover {
             background-color: #0056b3;
         }
-        .descricao_receita {
+        .descricao_despesa {
             max-width: 100%;
         }
-        .tipo_receita, .indicador1_receita, .indicador2_receita {
+        .tipo_despesa, .indicador1_despesa, .indicador2_despesa {
             max-width: 50%;
         }
-        .compoe_dre_receita, .compoe_dfc_receita {
+        .compoe_dre_despesa, .compoe_dfc_despesa {
             max-width: 20%;
         }
         .menu-button {
@@ -92,29 +92,29 @@
 <body>
     <button type="button" id="voltar" class="menu-button"><i class="fas fa-arrow-left icon"></i> Voltar</button>
     <div class="form-container">
-        <h1><i class="fas fa-plus-circle icon"></i> Cadastrar Receita</h1>
-        <form id="form-receita">
-            <label for="descricao_receita">Descrição da Receita:</label>
-            <input type="text" id="descricao_receita" name="descricao_receita" class="descricao_receita" maxlength="255" required>
+        <h1><i class="fas fa-plus-circle icon"></i> Cadastrar despesa</h1>
+        <form id="form-despesa">
+            <label for="descricao_despesa">Descrição da despesa:</label>
+            <input type="text" id="descricao_despesa" name="descricao_despesa" class="descricao_despesa" maxlength="255" required>
 
-            <label for="tipo_receita">Tipo:</label>
-            <input type="text" id="tipo_receita" name="tipo_receita" class="tipo_receita" maxlength="50" required>
+            <label for="tipo_despesa">Tipo:</label>
+            <input type="text" id="tipo_despesa" name="tipo_despesa" class="tipo_despesa" maxlength="50" required>
 
-            <label for="indicador1_receita">Indicador 1:</label>
-            <input type="text" id="indicador1_receita" name="indicador1_receita" class="indicador1_receita" maxlength="50" required>
+            <label for="indicador1_despesa">Indicador 1:</label>
+            <input type="text" id="indicador1_despesa" name="indicador1_despesa" class="indicador1_despesa" maxlength="50" required>
 
-            <label for="indicador2_receita">Indicador 2:</label>
-            <input type="text" id="indicador2_receita" name="indicador2_receita" class="indicador2_receita" maxlength="50" required>
+            <label for="indicador2_despesa">Indicador 2:</label>
+            <input type="text" id="indicador2_despesa" name="indicador2_despesa" class="indicador2_despesa" maxlength="50" required>
 
-            <label for="compoe_dre_receita">Compõe a DRE:</label>
-            <select id="compoe_dre_receita" name="compoe_dre_receita" class="compoe_dre_receita" required>
+            <label for="compoe_dre_despesa">Compõe a DRE:</label>
+            <select id="compoe_dre_despesa" name="compoe_dre_despesa" class="compoe_dre_despesa" required>
                 <option value="" disabled selected>Selecione</option>
                 <option value="Sim">Sim</option>
                 <option value="Não">Não</option>
             </select>
 
-            <label for="compoe_dfc_receita">Compõe a DFC:</label>
-            <select id="compoe_dfc_receita" name="compoe_dfc_receita" class="compoe_dfc_receita" required>
+            <label for="compoe_dfc_despesa">Compõe a DFC:</label>
+            <select id="compoe_dfc_despesa" name="compoe_dfc_despesa" class="compoe_dfc_despesa" required>
                 <option value="" disabled selected>Selecione</option>
                 <option value="Sim">Sim</option>
                 <option value="Não">Não</option>
@@ -126,18 +126,18 @@
     </div>
 
     <script>
-        document.getElementById('form-receita').addEventListener('submit', function(e) {
+        document.getElementById('form-despesa').addEventListener('submit', function(e) {
             e.preventDefault();
             const data = {
-                descricao_receita: document.getElementById('descricao_receita').value,
-                tipo_receita: document.getElementById('tipo_receita').value,
-                indicador1_receita: document.getElementById('indicador1_receita').value,
-                indicador2_receita: document.getElementById('indicador2_receita').value,
-                compoe_dre_receita: document.getElementById('compoe_dre_receita').value,
-                compoe_dfc_receita: document.getElementById('compoe_dfc_receita').value
+                descricao_despesa: document.getElementById('descricao_despesa').value,
+                tipo_despesa: document.getElementById('tipo_despesa').value,
+                indicador1_despesa: document.getElementById('indicador1_despesa').value,
+                indicador2_despesa: document.getElementById('indicador2_despesa').value,
+                compoe_dre_despesa: document.getElementById('compoe_dre_despesa').value,
+                compoe_dfc_despesa: document.getElementById('compoe_dfc_despesa').value
             };
 
-            fetch('/cadastrar-receita', {
+            fetch('/cadastrar-despesa', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -147,7 +147,7 @@
             .then(response => response.json())
             .then(result => {
                 alert(result.message);
-                document.getElementById('form-receita').reset();
+                document.getElementById('form-despesa').reset();
             })
             .catch(error => console.error('Erro:', error));
         });
