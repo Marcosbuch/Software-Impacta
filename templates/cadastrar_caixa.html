@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Caixa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .nome_banco {
+            max-width: 100%;
+        }
+        .bandeira, .tipo_de_pagamento, .taxa, .prazo {
+            max-width: 50%;
+        }
+        .menu-button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .menu-button:hover {
+            background-color: #0056b3;
+        }
+        #voltar {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: auto;
+            padding: 10px;
+        }
+        #limpar {
+            margin-bottom: 10px;
+            background-color: #FF6347;
+        }
+    </style>
+</head>
+<body>
+    <button type="button" id="voltar" class="menu-button"><i class="fas fa-arrow-left icon"></i> Voltar</button>
+    <div class="form-container">
+        <h1><i class="fas fa-plus-circle icon"></i> Cadastrar Caixa</h1>
+        <form id="form-caixa">
+            <label for="nome_banco">Nome Banco:</label>
+            <input type="text" id="nome_banco" name="nome_banco" class="nome_banco" maxlength="255" required>
+
+            <label for="bandeira">Bandeira:</label>
+            <input type="text" id="bandeira" name="bandeira" class="bandeira" maxlength="50" required>
+
+            <label for="tipo_de_pagamento">Tipo de Pagamento:</label>
+            <input type="text" id="tipo_de_pagamento" name="tipo_de_pagamento" class="tipo_de_pagamento" maxlength="50" required>
+
+            <label for="taxa">Taxa:</label>
+            <input type="text" id="taxa" name="taxa" class="taxa" maxlength="50" required>
+
+            <label for="prazo">Prazo:</label>
+            <input type="text" id="prazo" name="prazo" class="prazo" maxlength="50" required>
+
+            <button type="reset" id="limpar" class="menu-button"><i class="fas fa-trash icon"></i> Limpar</button>
+            <button type="submit"><i class="fas fa-save icon"></i> Cadastrar</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('form-caixa').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const data = {
+                nome_banco: document.getElementById('nome_banco').value,
+                bandeira: document.getElementById('bandeira').value,
+                tipo_de_pagamento: document.getElementById('tipo_de_pagamento').value,
+                taxa: document.getElementById('taxa').value,
+                prazo: document.getElementById('prazo').value
+            };
+
+            fetch('/cadastrar-caixa', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                alert(result.message);
+                document.getElementById('form-caixa').reset();
+            })
+            .catch(error => console.error('Erro:', error));
+        });
+
+        document.getElementById('voltar').addEventListener('click', function() {
+            window.location.href = '/';
+        });
+    </script>
+</body>
+</html>
