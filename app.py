@@ -141,6 +141,52 @@ def cadastrar_caixa():
 
     return jsonify({'message': message})
 
+
+# Cadastramento de Receitas
+
+@app.route('/cadastrar-contas-a-receber', methods=['GET'])
+def render_cadastrar_contas_a_receber():
+    return render_template('contas_a_receber.html')
+
+# Rota para cadastrar contas a receber
+@app.route('/cadastrar-contas-a-receber', methods=['POST'])
+def cadastrar_contas_a_receber():
+    data = request.json
+    id_receita = data.get('id_receita')
+    data_receita = data.get('data_receita')
+    adquirente = data.get('adquirente')
+    forma_de_pagamento = data.get('forma_de_pagamento')
+    valor_bruto = data.get('valor_bruto')
+    taxa = data.get('taxa', 0)
+    diferenca = data.get('diferenca', 0)
+    #valor_liquido = float(valor_bruto) - float(taxa) - float(diferenca)
+    vencimento = data.get('vencimento')
+    id_caixa = data.get('id_caixa')
+    recebido = data.get('recebido')
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    try:
+        sql = """
+        INSERT INTO contas_a_receber
+        (id_receita, data_receita, adquirente, forma_de_pagamento, valor_bruto, taxa, diferenca,  vencimento, id_caixa, recebido)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
+        values = (id_receita, data_receita, adquirente, forma_de_pagamento, valor_bruto, taxa, diferenca, vencimento, id_caixa, recebido)
+        cursor.execute(sql, values)
+        connection.commit()
+        message = 'Conta a receber cadastrada com sucesso!'
+    except Exception as e:
+        connection.rollback()
+        message = f'Ocorreu um erro: {str(e)}'
+    finally:
+        cursor.close()
+        connection.close()
+
+    return jsonify({'message': message})
+
+
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
 
