@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Contas a Receber</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="date"], input[type="number"], select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #voltar {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <button type="button" id="voltar" class="menu-button"><i class="fas fa-arrow-left icon"></i> Voltar</button>
+    <div class="form-container">
+        <h1><i class="fas fa-plus-circle icon"></i> Cadastrar Contas a Receber</h1>
+        <form id="form-contas-a-receber">
+            <label for="data_receita">Data da Receita:</label>
+            <input type="date" id="data_receita" required>
+
+            <label for="id_receita">ID Receita:</label>
+            <input type="number" id="id_receita" required>
+
+            <label for="adquirente">Adquirente:</label>
+            <select id="adquirente" required>
+                <option value="" disabled selected>Selecione</option>
+                <option value="Visa">Visa</option>
+                <option value="Master">Master</option>
+                <option value="PIX">PIX</option>
+            </select>
+
+            <label for="forma_de_pagamento">Forma de Pagamento:</label>
+            <select id="forma_de_pagamento" required>
+                <option value="" disabled selected>Selecione</option>
+                <option value="Debito">Débito</option>
+                <option value="Credito">Crédito</option>
+                <option value="Elo">Elo</option>
+            </select>
+
+            <label for="valor_bruto">Valor Bruto:</label>
+            <input type="number" id="valor_bruto" step="0.01" required>
+
+            <label for="taxa">Taxa:</label>
+            <input type="number" id="taxa" step="0.0001">
+
+            <label for="diferenca">Diferença:</label>
+            <input type="number" id="diferenca" step="0.01">
+
+            <label for="vencimento">Vencimento:</label>
+            <input type="date" id="vencimento">
+
+            <label for="id_caixa">ID Caixa:</label>
+            <input type="number" id="id_caixa" required>
+
+            <label for="recebido">Recebido:</label>
+            <select id="recebido" required>
+                <option value="" disabled selected>Selecione</option>
+                <option value="Sim">Sim</option>
+                <option value="Não">Não</option>
+            </select>
+
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('form-contas-a-receber').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const data = {
+                id_receita: document.getElementById('id_receita').value,
+                data_receita: document.getElementById('data_receita').value,
+                adquirente: document.getElementById('adquirente').value,
+                forma_de_pagamento: document.getElementById('forma_de_pagamento').value,
+                valor_bruto: document.getElementById('valor_bruto').value,
+                taxa: document.getElementById('taxa').value,
+                diferenca: document.getElementById('diferenca').value,
+                vencimento: document.getElementById('vencimento').value,
+                id_caixa: document.getElementById('id_caixa').value,
+                recebido: document.getElementById('recebido').value
+            };
+
+            fetch('/cadastrar-contas-a-receber', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                alert(result.message);
+                document.getElementById('form-contas-a-receber').reset();
+            })
+            .catch(error => console.error('Erro:', error));
+        });
+
+        document.getElementById('voltar').addEventListener('click', function() {
+            window.location.href = '/';
+        });
+    </script>
+</body>
+</html>
